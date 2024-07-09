@@ -1,0 +1,37 @@
+<template>
+  <div :class="$style.app">
+    <main :class="$style.main">
+      <TheHeader />
+      <router-view />
+      <!--      <TheFooter />-->
+    </main>
+  </div>
+</template>
+<script>
+import TheHeader from "@/components/TheHeader.vue";
+
+export default {
+  name:'MainLayout',
+  components: {TheHeader},
+}
+</script>
+<style module>
+.app {
+  display: flex;
+  width: 100%;
+  max-width: 1920px;
+  height: 100%;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #f1f3f5;
+  border: 1px solid rebeccapurple;
+}
+</style>
