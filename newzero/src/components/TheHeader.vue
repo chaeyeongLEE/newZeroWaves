@@ -1,7 +1,8 @@
 <template>
   <div>
     <nav>
-      <ul :class="$style.tabMenu">
+      <ul :class="[$style.tabMenu, { [$style.scrolled]: isScrolled }]">
+      <!--        isScrolled가 true일때  scrolled 스타일 적용 -->
         <li v-for="(menu, idx) in tabMenus" :key="idx">
           <template v-if="menu === 'logo'">
             <router-link v-if="menu === 'logo'" to="/Home">
@@ -25,9 +26,21 @@ export default {
     return {
       tabMenus: [
         'Home', 'Map', 'logo', 'Login', 'Join'
-      ]
+      ],
+      isScrolled: false
     }
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      this.isScrolled = window.scrollY > 0;
+    }
+  }
 }
 </script>
 
@@ -39,8 +52,15 @@ export default {
   align-items: center;
   padding: 1.2rem 1rem;
   list-style: none;
+ /* top: -17px;
+  width: 100%;
+  z-index: 100;*/
 }
-
+.tabMenu.scrolled {
+  background-color: #ffffff;
+  opacity: 50%;
+  border-bottom: none;
+}
 .tabMenu > li a {
   color: #00ED5D;
   font-size: 1.25rem;
@@ -49,7 +69,7 @@ export default {
 }
 
 .logo {
-  width: 65px;
+  width: 75px;
   height: auto;
 }
 </style>

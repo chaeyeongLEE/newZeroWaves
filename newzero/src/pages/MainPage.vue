@@ -1,6 +1,6 @@
 <template>
-  <main :class="$style.main">
-    <section :class="$style.card">
+  <main>
+    <section :class="$style.card" style="margin-top: 5rem">
       <img :src="require('@/assets/mainImg.png')" alt="mainImg" :class="$style.img" />
       <div :class="$style.textBox">
         <h2>제로 웨이브 <br /> <span style="color: #00ED5D; font-size: medium;">Zero Wave</span></h2>
@@ -36,7 +36,7 @@
           제로 웨이브를 통해 환경보호에 동참해주세요</p>
       </div>
     </section>
-    <section :class="$style.card">
+    <section :class="$style.card2">
       <div :class="$style.textBox2">
         <h1>Zero Wave는 제로웨이스트를 실천합니다</h1>
         <span style="color: #00ED5D;">제로웨이스트를 위한 제로웨이브의 기능을 소개합니다</span>
@@ -81,6 +81,13 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 8rem 0;
+}
+
+.card2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
 }
 
 .textBox {

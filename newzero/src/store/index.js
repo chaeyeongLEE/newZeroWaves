@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+//default
+import authStore from '@/store/authStore';
 // map
-import mapStore from "@/store/mapStore";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        map:mapStore,
-    }
-})
+        auth: authStore,
+    },
+});
+

@@ -3,7 +3,6 @@
     <main :class="$style.main">
       <TheHeader />
       <router-view />
-      <!--      <TheFooter />-->
     </main>
   </div>
 </template>
@@ -26,12 +25,10 @@ export default {
   overflow-x: auto;
 }
 .main {
-  position: relative;
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: #f1f3f5;
-  border: 1px solid rebeccapurple;
 }
 </style>

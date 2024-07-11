@@ -22,7 +22,7 @@ const routes = [
                 component: MapPage,
             },
             {
-                path: '/login',
+                path: '/Login',
                 component: LoginPage,
             },
             {
