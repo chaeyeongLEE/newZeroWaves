@@ -3,7 +3,7 @@
     <nav>
       <ul :class="[$style.tabMenu, { [$style.scrolled]: isScrolled }]">
       <!--        isScrolled가 true일때  scrolled 스타일 적용 -->
-        <li v-for="(menu, idx) in tabMenus" :key="idx">
+        <li v-for="(menu, idx) in updateMenu" :key="idx">
           <template v-if="menu === 'logo'">
             <router-link v-if="menu === 'logo'" to="/Home">
               <img :src="require('@/assets/logo.png')" alt="Logo" :class="$style.logo" />
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -35,6 +37,20 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+  },
+  computed: {
+    ...mapGetters('auth', ['isLoginFlag']),
+    updateMenu(){
+      return this.tabMenus.map(menu => {
+        if(menu === 'Login') {
+          return this.isLoginFlag ? 'Logout' : 'Login';
+        }
+        if(menu === 'Join') {
+          return this.isLoginFlag ? 'MyPage' : 'Join';
+        }
+        return menu;
+      })
+    }
   },
   methods: {
     handleScroll() {

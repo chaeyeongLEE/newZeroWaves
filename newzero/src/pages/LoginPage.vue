@@ -27,7 +27,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['SET_USER']),
+    ...mapMutations('auth', ['SET_USER', 'SET_LOGIN_FLAG']),
     isChangeUser(e, field) {
       this.user[field] = e.target.value;
     },
@@ -46,14 +46,16 @@ export default {
       }
       alert('로그인이 완료되었습니다.');
       console.log('this.user', this.user);
-
       try {
-        this.SET_USER(this.user);
-        await this.$router.push('/home')
+        await this.SET_USER(this.user);
+        await this.SET_LOGIN_FLAG(true);
+        await this.$router.push('/home');
       } catch (error) {
-        console.error('Error calling SET_USER:', error);
+        alert('로그인에 실패하였습니다.');
+        console.error(error);
+      } finally {
+         await this.resetUser();
       }
-      // await this.resetUser();
     },
     async resetUser() {
       this.user.id = '';
