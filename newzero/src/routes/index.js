@@ -26,7 +26,7 @@ const routes = [
                 component: LoginPage,
             },
             {
-                path: '/myPage',
+                path: '/MyPage',
                 component: MyPage
             }
         ]
