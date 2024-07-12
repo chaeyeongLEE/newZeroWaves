@@ -15,9 +15,8 @@
             </router-link>
           </template>
         </li>
-<!--        <li v-if="isLoginFlag">-->
-        <li v-if="false">
-          <button type="submit">로그아웃</button>
+        <li v-if="isLoginFlag">
+          <button type="submit" @click="logout()" :class="$style.logoutBtn">Logout</button>
         </li>
       </ul>
     </nav>
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   data() {
@@ -45,22 +44,36 @@ export default {
   computed: {
     ...mapGetters('auth', ['isLoginFlag']),
     updateMenu() {
-      return this.tabMenus.map(menu => {
+      return this.tabMenus.filter(menu => {
         if (menu === 'Login') {
-          return this.isLoginFlag ? 'Logout' : 'Login';
+          return !this.isLoginFlag;
         }
         //로그인 쪽은 UI 좀 더 고민 필요
         if (menu === 'Join') {
           return this.isLoginFlag ? 'MyPage' : 'Join';
         }
+        return true;
+      }).map(menu => {
+        if (menu === 'Join' && this.isLoginFlag) {
+          return 'MyPage';
+        }
         return menu;
-      })
+      });
     }
   },
   methods: {
+    ...mapMutations('auth', ['SET_USER_LOGOUT']),
     handleScroll() {
       this.isScrolled = window.scrollY > 0;
-    }
+    },
+    async logout()  {
+      if(confirm("로그아웃 하시겠습니까?")){
+        alert("정상적으로 로그아웃 되었습니다.");
+        await this.SET_USER_LOGOUT();
+        await this.$router.push('/home');
+        return;
+      }
+    },
   }
 }
 </script>
@@ -94,5 +107,13 @@ export default {
 .logo {
   width: 75px;
   height: auto;
+}
+
+.logoutBtn {
+  background-color: #00ED5D;
+  border-radius: 1rem;
+  border: 1px #00ED5D solid;
+  padding: 0.5rem;
+  color: #ffffff;
 }
 </style>
