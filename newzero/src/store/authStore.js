@@ -52,6 +52,22 @@ const authStore = {
                 console.log(e);
             }
         },
+        async GET_JOIN_USER({ commit }){
+            try {
+                const { data } = await axios.get("http://localhost:3001/totalPlace");
+                switch (true) {
+                    case data.status === '0000':
+                        commit('SET_USER_PLACE', data.output);
+                        break;
+                    default:
+                        alert('리스트를 불러오는데 실패하였습니다.');
+                        break;
+                }
+            } catch (e) {
+                alert('리스트를 불러오는데 실패하였습니다.');
+                console.log(e);
+            }
+        },
     },
 };
 

@@ -4,6 +4,7 @@ import LoginPage from "@/pages/LoginPage.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MapPage from "@/pages/MapPage.vue";
 import MyPage from "@/pages/MyPage.vue";
+import JoinPage from "@/pages/JoinPage.vue";
 
 Vue.use(Router);
 
@@ -28,6 +29,10 @@ const routes = [
             {
                 path: '/MyPage',
                 component: MyPage
+            },
+            {
+                path: '/Join',
+                component: JoinPage
             }
         ]
     },

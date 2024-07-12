@@ -37,14 +37,16 @@
         "userName": "이채영",
         "userId": "yeong",
         "userPw": "123qwe",
-        "phone": "010-6411-1277"
+        "email": "yeong@naver.com"
       },
       {
         "userName": "홍길동",
         "userId": "honggildong",
         "userPw": "123qwe!@#",
-        "phone": "010-1234-4321"
+        "phone": "dong@naver.com"
       }
     ]
-  }
+  },
+  "users": [],
+  "todos": []
 }
