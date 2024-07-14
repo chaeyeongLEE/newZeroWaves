@@ -22,7 +22,6 @@ const authStore = {
     mutations: {
         NEW_USER(state, data) {
             state.newUser[data.name] = data.value;
-
         },
         SET_USER(state, user) {
             state.userId = user.id;
@@ -44,6 +43,9 @@ const authStore = {
         SET_USER_PLACE(state, output) {
             state.userPlaceList = output;
         },
+        RESET_DATA(state) {
+            state.newUser = {}
+        }
     },
     actions: {
         async GET_USER_PLACE({ commit }){

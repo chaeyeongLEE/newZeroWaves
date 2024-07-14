@@ -3,7 +3,7 @@
     <div :class="$style.Section1">
       <h1 style="color: #0475FF">Join</h1>
       <form :class="$style.joinBox" @submit.prevent="isJoin">
-        <input type="text" placeholder="이름" @change="isChangeUser($event, 'name')" />
+        <input type="text" placeholder="이름" @change="isChangeUser($event, 'name')"/>
         <input type="text" placeholder="아이디" @change="isChangeUser($event, 'id')" />
         <input type="email" placeholder="이메일" @change="isChangeUser($event, 'email')" />
         <input type="password" placeholder="비밀번호" @change="isChangeUser($event, 'pw')" />
@@ -31,12 +31,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['SET_USER']),
+    ...mapMutations('auth', ['SET_USER', 'RESET_DATA', 'NEW_USER']),
     ...mapActions('auth',['GET_JOIN_USER']),
     isChangeUser(e, field) {
       this.newUser[field] = e.target.value;
+      this.NEW_USER({name: field, value: e.target.value});
     },
     async isJoin() {
+      //입력받은 데이터를 검사해야해
       if (!this.newUser.id) {
         alert('아이디를 입력해주세요.');
         return;
@@ -57,8 +59,9 @@ export default {
       //   alert('이메일을 입력해주세요.');
       //   return;
       // }
-      this.GET_JOIN_USER(this.newUser);
-      this.resetUser();
+      await this.GET_JOIN_USER(this.newUser);
+      await this.RESET_DATA();
+      await this.resetUser();
     },
     async resetUser() {
       this.newUser = {};

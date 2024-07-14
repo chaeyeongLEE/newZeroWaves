@@ -76,6 +76,36 @@
       "pw": "123qwe",
       "email": "apple@naver.com",
       "name": "정은"
+    },
+    {
+      "id": "123",
+      "pw": "123",
+      "email": "yy@naver.com",
+      "name": "마부자"
+    },
+    {
+      "id": "hihi",
+      "pw": "123",
+      "email": "ye@naver.com",
+      "name": "영용"
+    },
+    {
+      "id": "1",
+      "pw": "1",
+      "email": "1@naver.com",
+      "name": "1"
+    },
+    {
+      "id": "1",
+      "pw": "1",
+      "email": "34@naver.com",
+      "name": "1"
+    },
+    {
+      "id": "goe",
+      "pw": "123",
+      "email": "nmf@naver.com",
+      "name": "호호"
     }
   ],
   "todos": []
