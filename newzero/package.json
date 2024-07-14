@@ -7,11 +7,12 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start-json-server": "json-server --watch db.json --port 3001",
-    "server": "json-server-auth --watch db.json --port 3001"
+    "start-json-server-auth": "node server.js"
   },
   "dependencies": {
     "axios": "^1.7.2",
     "core-js": "^3.8.3",
+    "express": "^4.19.2",
     "vue": "^2.7.16",
     "vue-router": "^3.6.5",
     "vuex": "^3.6.2"

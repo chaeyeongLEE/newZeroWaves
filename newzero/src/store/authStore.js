@@ -7,6 +7,12 @@ const authStore = {
         userPw: localStorage.getItem('userPw') || '',
         isLoginFlag: !!localStorage.getItem('userId'),
         userPlaceList: [],
+        newUser: {
+            id: '',
+            pw: '',
+            email: '',
+            phone: '',
+        }
     },
     getters: {
         isLoginFlag(state) {
@@ -14,6 +20,10 @@ const authStore = {
         },
     },
     mutations: {
+        NEW_USER(state, data) {
+            state.newUser[data.name] = data.value;
+
+        },
         SET_USER(state, user) {
             state.userId = user.id;
             state.userPw = user.pw;
@@ -52,19 +62,25 @@ const authStore = {
                 console.log(e);
             }
         },
-        async GET_JOIN_USER({ commit }){
+        async GET_JOIN_USER({ commit }, userInfo){
             try {
-                const { data } = await axios.get("http://localhost:3001/totalPlace");
+                const { data } = await axios.post("http://localhost:3001/users", {
+                    id: userInfo.id,
+                    pw: userInfo.pw,
+                    email: userInfo.email,
+                    name: userInfo.name,
+                });
                 switch (true) {
                     case data.status === '0000':
-                        commit('SET_USER_PLACE', data.output);
+                        commit('NEW_USER', data.output);
+                        alert('회원가입이 완료되었습니다.')
                         break;
                     default:
-                        alert('리스트를 불러오는데 실패하였습니다.');
+                        alert('회원가입에 실패하였습니다.');
                         break;
                 }
             } catch (e) {
-                alert('리스트를 불러오는데 실패하였습니다.');
+                alert('회원가입에 실패하였습니다.');
                 console.log(e);
             }
         },

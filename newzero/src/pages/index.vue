@@ -3,15 +3,17 @@
     <main :class="$style.main">
       <TheHeader />
       <router-view />
+      <TheFooter />
     </main>
   </div>
 </template>
 <script>
 import TheHeader from "@/components/TheHeader.vue";
+import TheFooter from "@/components/TheFooter.vue";
 
 export default {
   name:'MainLayout',
-  components: {TheHeader},
+  components: {TheFooter, TheHeader},
 }
 </script>
 <style module>

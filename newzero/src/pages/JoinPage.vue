@@ -8,6 +8,7 @@
         <input type="email" placeholder="이메일" @change="isChangeUser($event, 'email')" />
         <input type="password" placeholder="비밀번호" @change="isChangeUser($event, 'pw')" />
         <input type="password" placeholder="비밀번호확인" @change="isChangeUser($event, 'pwCheck')" />
+        <span v-if="newUser.pw && newUser.pwCheck && (newUser.pw !== newUser.pwCheck)">비밀번호가 동일하지않습니다.</span>
         <button type="submit">회원가입</button>
       </form>
     </div>
@@ -15,12 +16,12 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import {mapActions, mapMutations} from "vuex";
 
 export default {
   data() {
     return {
-      user: {
+      newUser: {
         id: '',
         pw: '',
         pwCheck: '',
@@ -31,23 +32,24 @@ export default {
   },
   methods: {
     ...mapMutations('auth', ['SET_USER']),
+    ...mapActions('auth',['GET_JOIN_USER']),
     isChangeUser(e, field) {
-      this.user[field] = e.target.value;
+      this.newUser[field] = e.target.value;
     },
     async isJoin() {
-      if (!this.user.id) {
+      if (!this.newUser.id) {
         alert('아이디를 입력해주세요.');
         return;
       }
-      if (!this.user.pw) {
+      if (!this.newUser.pw) {
         alert('비밀번호를 입력해주세요.');
         return;
       }
-      if (this.user.pw !== this.user.pwCheck) {
+      if (this.newUser.pw !== this.newUser.pwCheck) {
         alert('비밀번호와 비밀번호확인이 동일하지않습니다.');
         return;
       }
-      if (!this.user.email) {
+      if (!this.newUser.email) {
         alert('이메일을 입력해주세요.');
         return;
       }
@@ -55,18 +57,11 @@ export default {
       //   alert('이메일을 입력해주세요.');
       //   return;
       // }
-      alert('회원 가입이 완료되었습니다.');
-      try {
-        await this.$router.push('/home');
-      } catch (error) {
-        alert('로그인에 실패하였습니다.');
-        console.error(error);
-      } finally {
-        this.resetUser();
-      }
+      this.GET_JOIN_USER(this.newUser);
+      this.resetUser();
     },
     async resetUser() {
-      this.user = {};
+      this.newUser = {};
     },
 
   }
@@ -121,9 +116,8 @@ export default {
 }
 .joinBox > span {
   display: flex;
-  align-items: center;
-  margin: 1rem 9.5rem 0 0 ;
-  font-size: 0.9rem;
-  color: #7D7D7D;
+  margin: 0.5rem 8rem 0 0;
+  font-size: 0.7rem;
+  color: #0475FF;
 }
 </style>

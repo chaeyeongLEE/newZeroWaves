@@ -73,7 +73,7 @@ export default {
 }
 .card span, .card p {
   height: 45px;
-  overflow: hidden;
+  overflow: scroll;
   text-overflow: ellipsis;
 }
 </style>
