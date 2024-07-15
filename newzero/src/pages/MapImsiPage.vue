@@ -1,29 +1,29 @@
 <template>
-  <div class="map_wrap">
+  <div :class="$style.mapWrap">
     <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
 
-    <div id="menu_wrap" class="bg_white">
-      <div class="option">
+    <div :class="[$style.menuWrap, 'bg_white']">
+      <div :class="$style.option">
         <div>
           <form @submit.prevent="searchPlaces">
-            키워드 : <input type="text" v-model="keyword" size="15">
-            <button type="submit">검색하기</button>
+            <input type="text" v-model="keyword">
+            <button type="submit">검색</button>
           </form>
         </div>
       </div>
       <hr>
-      <ul id="placesList">
-        <li v-for="(place, index) in places" :key="index" class="item">
-          <span class="markerbg" :class="'marker_' + (index + 1)"></span>
-          <div class="info">
-            <h5>{{ place.place_name }}</h5>
+      <ul id="placesList" :class="$style.placesList">
+        <li v-for="(place, index) in places" :key="index" :class="$style.item">
+          <span :class="['markerbg', $style['marker_' + (index + 1)]]"></span>
+          <div :class="$style.info">
+            <h4>{{ place.place_name }}</h4>
             <span v-if="place.road_address_name">{{ place.road_address_name }}</span>
-            <span class="jibun gray">{{ place.address_name }}</span>
-            <span class="tel">{{ place.phone }}</span>
+            <span :class="$style.gray">{{ place.address_name }}</span>
+            <span :class="$style.tel">{{ place.phone }}</span>
           </div>
         </li>
       </ul>
-      <div id="pagination"></div>
+      <div id="pagination" :class="$style.pagination"></div>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@
 export default {
   data() {
     return {
-      keyword: '이태원 맛집',
+      keyword: '제로웨이스트',
       places: [],
       map: null,
       markers: [],
@@ -74,13 +74,11 @@ export default {
     },
     displayPlaces(places) {
       const bounds = new kakao.maps.LatLngBounds();
-      this.removeAllChildNodes(document.getElementById('placesList'));
       this.removeMarkers();
 
       places.forEach((place, index) => {
         const placePosition = new kakao.maps.LatLng(place.y, place.x);
         const marker = this.addMarker(placePosition, index);
-        const itemEl = this.getListItem(index, place);
 
         bounds.extend(placePosition);
 
@@ -91,16 +89,6 @@ export default {
         kakao.maps.event.addListener(marker, 'mouseout', () => {
           this.infowindow.close();
         });
-
-        itemEl.addEventListener('mouseover', () => {
-          this.displayInfowindow(marker, place.place_name);
-        });
-
-        itemEl.addEventListener('mouseout', () => {
-          this.infowindow.close();
-        });
-
-        document.getElementById('placesList').appendChild(itemEl);
       });
 
       this.map.setBounds(bounds);
@@ -157,44 +145,19 @@ export default {
       const content = `<div style="padding:5px;z-index:1;">${title}</div>`;
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
-    },
-    getListItem(index, place) {
-      const el = document.createElement('li');
-      let itemStr = `<span class="markerbg marker_${index + 1}"></span>`;
-      itemStr += '<div class="info">';
-      itemStr += `   <h5>${place.place_name}</h5>`;
-      if (place.road_address_name) {
-        itemStr += `    <span>${place.road_address_name}</span>`;
-        itemStr += `    <span class="jibun gray">${place.address_name}</span>`;
-      } else {
-        itemStr += `    <span>${place.address_name}</span>`;
-      }
-      itemStr += `  <span class="tel">${place.phone}</span>`;
-      itemStr += '</div>';
-
-      el.innerHTML = itemStr;
-      el.className = 'item';
-
-      return el;
-    },
-    removeAllChildNodes(parentNode) {
-      while (parentNode.firstChild) {
-        parentNode.removeChild(parentNode.firstChild);
-      }
     }
   }
 };
 </script>
 
-<style scoped>
-/* Add your CSS styles here */
-.map_wrap {
+<style module>
+.mapWrap {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.map_wrap #menu_wrap {
+.menuWrap {
   position: absolute;
   top: 0;
   left: 0;
@@ -209,56 +172,73 @@ export default {
   border-radius: 10px;
 }
 
-.map_wrap #menu_wrap .option {
+.option {
   text-align: center;
 }
 
-.map_wrap #menu_wrap .option p {
+.option p {
   margin: 10px 0;
 }
-
-.map_wrap #menu_wrap .option button {
-  margin-left: 5px;
+.option input {
+  border: 0;
+  width: 180px;
+  outline: none;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
 }
 
-.map_wrap #placesList li {
+.option button {
+  margin-left: 5px;
+  border-radius: 0.3rem;
+  border: 1px solid #d4a373;
+  background-color: #d4a373;
+  padding: 0.2rem;
+  width: 50px;
+  color: #ffffff;
+}
+
+.placesList {
+  padding: 0;
   list-style: none;
 }
 
-.map_wrap #placesList .item {
+.item {
+  list-style: none;
   position: relative;
   border-bottom: 1px solid #888;
   overflow: hidden;
   cursor: pointer;
   min-height: 65px;
+  padding: 10px;
+  margin-top: -1rem;
 }
 
-.map_wrap #placesList .item span {
+.item span {
   display: block;
   margin-top: 4px;
 }
 
-.map_wrap #placesList .item h5,
-.map_wrap #placesList .item .info {
+.item h5,
+.info {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.map_wrap #placesList .info .gray {
+.gray {
   color: #8a8a8a;
 }
 
-.map_wrap #placesList .info .jibun {
+.jibun {
   padding-left: 26px;
   background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
 }
 
-.map_wrap #placesList .info .tel {
+.tel {
   color: #009900;
 }
 
-.map_wrap #placesList .item .markerbg {
+.markerbg {
   float: left;
   position: absolute;
   width: 36px;
@@ -267,30 +247,29 @@ export default {
   background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
 }
 
-.map_wrap #placesList .item .marker_1 {
+.marker_1 {
   background-position: 0 -10px;
 }
 
-.map_wrap #placesList .item .marker_2 {
+.marker_2 {
   background-position: 0 -56px;
 }
 
-.map_wrap #placesList .item .marker_3 {
+.marker_3 {
   background-position: 0 -102px;
 }
 
-/* Define marker styles up to marker_15 as per your need */
-
-.map_wrap #pagination {
+.pagination {
   margin: 10px auto;
   text-align: center;
 }
 
-.map_wrap #pagination a {
+.pagination a {
   display: inline-block;
   margin-right: 10px;
 }
 
-.map_wrap #pagination .on {
-  font-weight: bold
+.pagination .on {
+  font-weight: bold;
 }
+</style>
