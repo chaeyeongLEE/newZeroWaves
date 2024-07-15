@@ -15,7 +15,7 @@
       <ul id="placesList" :class="$style.placesList">
         <li v-for="(place, index) in places" :key="index" :class="$style.item">
           <span :class="['markerbg', $style['marker_' + (index + 1)]]"></span>
-          <div :class="$style.info">
+          <div :class="$style.info" @click="showPlace(place)">
             <h4>{{ place.place_name }}</h4>
             <span v-if="place.road_address_name">{{ place.road_address_name }}</span>
             <span :class="$style.gray">{{ place.address_name }}</span>
@@ -47,7 +47,7 @@ export default {
       const mapContainer = document.getElementById('map');
       const mapOption = {
         center: new kakao.maps.LatLng(37.566826, 126.9786567),
-        level: 3
+        level: 7
       };
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
@@ -145,9 +145,14 @@ export default {
       const content = `<div style="padding:5px;z-index:1;">${title}</div>`;
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
+    },
+    showPlace(place) {
+      const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
+      this.map.setLevel(5);
+      this.map.panTo(moveLatLon);
     }
   }
-};
+}
 </script>
 
 <style module>
