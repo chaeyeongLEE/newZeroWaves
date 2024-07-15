@@ -14,3 +14,6 @@ Vue.component('MyPage', MyPage);
 
 import JoinPage from "@/pages/JoinPage.vue";
 Vue.component('JoinPage', JoinPage);
+
+import MapImsiPage from "@/pages/MapImsiPage.vue";
+Vue.component('MapImsiPage', MapImsiPage);

@@ -4,6 +4,8 @@
       <input type="text" v-model="searchData" placeholder="장소명을 검색해주세요." id="keyword"/>
       <button type="submit" id="submitBtn" @click.prevent="searchPlace">검색</button>
     </form>
+    <ul id="placesList"></ul>
+    <div id="pagination"></div>
     <div id="map" :class="$style.map"></div>
   </div>
 </template>
@@ -68,7 +70,7 @@ export default {
     },
     displayMarker(place) {
       const markerPosition = new window.kakao.maps.LatLng(place.y, place.x);
-      const marker = new window.kakao.maps.Marker({ position: markerPosition });
+      const marker = new window.kakao.maps.Marker({position: markerPosition});
       marker.setMap(this.map);
     }
   }
