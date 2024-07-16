@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.pageContainer">
     <div :class="$style.infoBox">
       <h2>{{ userId }}님 안녕하세요</h2>
       <span>내가 기록한 장소</span>
@@ -16,29 +16,34 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   mounted() {
     this.GET_USER_PLACE();
   },
   computed: {
-      ...mapState('auth', ['userId', 'userPlaceList']),
-    },
+    ...mapState('auth', ['userId', 'userPlaceList']),
+  },
   methods: {
     ...mapActions('auth', ['GET_USER_PLACE']),
   }
-
 }
 </script>
 
 <style module>
+.pageContainer {
+  padding: 0 6rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 .infoBox {
   color: #0475FF;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 6rem;
+  padding: 2.5rem 0.5rem;
 }
 .infoBox > span {
   font-weight: 500;
@@ -47,7 +52,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding: 0 6rem;
 }
 .card {
   display: flex;
@@ -73,7 +77,11 @@ export default {
 }
 .card span, .card p {
   height: 45px;
-  overflow: scroll;
+  overflow: auto;
   text-overflow: ellipsis;
+  -ms-overflow-style: none;
+}
+.card span::-webkit-scrollbar, .card p::-webkit-scrollbar {
+  display: none;
 }
 </style>

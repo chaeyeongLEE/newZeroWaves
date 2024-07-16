@@ -1,36 +1,42 @@
 <template>
   <div :class="$style.app">
-    <main :class="$style.main">
-      <TheHeader />
+    <TheHeader />
+    <div :class="$style.content">
       <router-view />
-      <TheFooter />
-    </main>
+    </div>
+    <TheFooter />
   </div>
 </template>
+
 <script>
 import TheHeader from "@/components/TheHeader.vue";
 import TheFooter from "@/components/TheFooter.vue";
 
 export default {
-  name:'MainLayout',
-  components: {TheFooter, TheHeader},
+  name: 'MainLayout',
+  components: { TheFooter, TheHeader },
 }
 </script>
+
 <style module>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
 .app {
   display: flex;
-  width: 100%;
-  max-width: 1920px;
-  height: 100%;
-  margin: 0 auto;
-  white-space: nowrap;
-  overflow-x: auto;
-}
-.main {
-  display: flex;
-  position: relative;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
 </style>
