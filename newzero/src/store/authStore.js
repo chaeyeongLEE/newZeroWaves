@@ -7,6 +7,7 @@ const authStore = {
         userPw: localStorage.getItem('userPw') || '',
         isLoginFlag: !!localStorage.getItem('userId'),
         userPlaceList: [],
+        clickPlace: {},
         newUser: {
             id: '',
             pw: '',
@@ -52,6 +53,13 @@ const authStore = {
         },
         RESET_DATA(state) {
             state.newUser = {}
+        },
+        RESET_CLICK_DATA(state) {
+            state.clickPlace = {}
+        },
+        CLICK_DATA(state, data)  {
+            state.clickPlace= data;
+            console.log('누른얘:', data)
         }
     },
     actions: {
@@ -93,6 +101,29 @@ const authStore = {
                 console.log(e);
             }
         },
+        async ADD_USER_PLACE({ state, commit }){
+            try {
+                const { data } = await axios.post("http://localhost:3001/totalPlace", {
+                    place: state.clickPlace.place.place_name,
+                    address:state.clickPlace.place.address_name,
+                    phone: state.clickPlace.place.phone || '',
+                    desc:''
+                });
+                switch (true) {
+                    case data.status === '0000':
+                        commit('SET_USER_PLACE', data.output);
+                        alert('장소 저장이 완료되었습니다.');
+                        break;
+                    default:
+                        alert('장소 저장에 실패하였습니다.');
+                        break;
+                }
+            } catch (e) {
+                alert('장소 저장에 실패하였습니다.');
+                console.log(e);
+            }
+        },
+
     },
 };
 

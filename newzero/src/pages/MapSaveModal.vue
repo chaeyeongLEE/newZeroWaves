@@ -1,14 +1,18 @@
 <template>
-  <TheModal width="400px" @onSubmit="savePlace">
+  <TheModal width="300px" @onSubmit="savePlace">
     <template #title>
-      장소 저장하기
+      {{ clickPlace.place.place_name }}
+      <p>{{ clickPlace.place.category_name}}</p>
     </template>
     <template #desc>
-      해당 장소를 저장해볼게요?
+      <div :class="$style.contentWrap">
+        <span>📍 {{ clickPlace.place.address_name || '' }}</span>
+        <span>{{ clickPlace.place.phone ? '📞 ' + clickPlace.place.phone : '' }}</span>
+      </div>
     </template>
     <template #btnWrap>
       <div :class="$style.btnWrap">
-        <button type="submit">확인</button>
+        <button type="submit">저장하기</button>
         <button @click="closeModal">닫기</button>
       </div>
     </template>
@@ -16,20 +20,22 @@
 </template>
 
 <script>
-import {mapMutations, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   computed:{
-    ...mapState('auth', ['modal'])
+    ...mapState('auth', ['modal', 'clickPlace'])
   },
   methods: {
-    ...mapMutations('auth', ['SET_MODAL']),
+    ...mapMutations('auth', ['SET_MODAL', 'RESET_CLICK_DATA']),
+    ...mapActions('auth', ['ADD_USER_PLACE']),
     closeModal() {
       this.SET_MODAL('favoriteModal');
+      this.RESET_CLICK_DATA();
     },
     savePlace() {
-      console.log('장소 저장하기')
       this.SET_MODAL('favoriteModal');
+      this.ADD_USER_PLACE();
     }
   },
 
@@ -37,6 +43,13 @@ export default {
 </script>
 
 <style module>
+.contentWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
 .btnWrap {
   display: flex;
   justify-content: space-between;
@@ -46,16 +59,17 @@ export default {
 .btnWrap > button {
   cursor: pointer;
   border-radius: 0.3rem;
-  border: 1px solid #d4a373;
-  width: 70px;
+  border: 1px solid #57cc99;
+  width: 75px;
   padding: 0.35rem;
 }
 .btnWrap > button:nth-child(1) {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.4s ease;
+  background-color: #ffffff;
 }
 
 .btnWrap > button:nth-child(2) {
-  background-color: #d4a373;
+  background-color: #80ed99;
 }
 
 .btnWrap > button:hover {
@@ -63,6 +77,6 @@ export default {
 }
 
 .btnWrap > button:nth-child(1):hover {
-  background-color: #d4a373;
+  background-color: #80ed99;
 }
 </style>

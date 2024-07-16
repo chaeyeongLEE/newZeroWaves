@@ -17,7 +17,7 @@ export default {};
   padding: 1rem;
   font-size: 0.7rem;
   color: #999999;
-  border-top: 1px solid #00ED5D;
+  border-top: 1px solid #57cc99;
   width: 100%;
   background-color: #fff;
 }

@@ -49,7 +49,7 @@ export default {
     this.initMap();
   },
   methods: {
-    ...mapMutations('auth', ['SET_MODAL']),
+    ...mapMutations('auth', ['SET_MODAL', 'CLICK_DATA']),
     initMap() {
       const mapContainer = document.getElementById('map');
       const mapOption = {
@@ -93,11 +93,9 @@ export default {
           this.displayInfowindow(marker, place.place_name);
         });
 
-
+        // 지도 내 장소클릭 시에 저장하는 모달 띄우기
         kakao.maps.event.addListener(marker, 'click', () => {
-          console.log('클릭함');
-          //저장 모달 띄우기
-          this.SET_MODAL('favoriteModal');
+          this.isClickPlace(place);
         });
 
         kakao.maps.event.addListener(marker, 'mouseout', () => {
@@ -106,6 +104,10 @@ export default {
       });
 
       this.map.setBounds(bounds);
+    },
+    isClickPlace(place){
+      this.SET_MODAL('favoriteModal');
+      this.CLICK_DATA({ place });
     },
     displayPagination(pagination) {
       const paginationEl = document.getElementById('pagination');
@@ -156,15 +158,9 @@ export default {
       this.markers = [];
     },
     displayInfowindow(marker, title) {
-      const content = `<div style="padding: 5px; z-index: 1; display: inline-block; white-space: nowrap;">${title}
-        <span id="star-icon" style="cursor: pointer; margin-left: 10px;">&#9733;</span></div>`;
+      const content = `<div style="padding: 5px; z-index: 1; display: inline-block; white-space: nowrap;">${title}</div>`;
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
-
-      const starIcon = document.getElementById('star-icon');
-      if (starIcon) {
-        starIcon.addEventListener('click', () => this.saveLocation(title));
-      }
     },
     saveLocation(title) {
       const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
@@ -225,8 +221,8 @@ export default {
 .option button {
   margin-left: 5px;
   border-radius: 0.3rem;
-  border: 1px solid #d4a373;
-  background-color: #d4a373;
+  border: 1px solid #57cc99;
+  background-color: #57cc99;
   padding: 0.2rem;
   width: 50px;
   color: #ffffff;

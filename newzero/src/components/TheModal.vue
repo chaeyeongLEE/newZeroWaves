@@ -72,7 +72,7 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   animation: scaleUp 0.3s;
 }
 
@@ -81,16 +81,19 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 5px;
   width: 100%;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 2rem 0;
-}
-
-.modalTitle span {
-  color: #2c9dec;
   font-size: 1.2rem;
+  font-weight: 600;
+}
+.modalTitle p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #969696;
 }
 
 .btnWrap {

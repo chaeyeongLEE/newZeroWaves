@@ -86,9 +86,6 @@ export default {
   align-items: center;
   padding: 1.2rem 1rem;
   list-style: none;
-  /* top: -17px;
-   width: 100%;
-   z-index: 100;*/
 }
 
 .tabMenu.scrolled {
@@ -98,7 +95,7 @@ export default {
 }
 
 .tabMenu > li a, .tabMenu > li {
-  color: #00ED5D;
+  color: #57cc99;
   font-size: 1.25rem;
   font-weight: bold;
   text-decoration: none;
@@ -110,9 +107,9 @@ export default {
 }
 
 .logoutBtn {
-  background-color: #00ED5D;
+  background-color: #57cc99;
   border-radius: 1rem;
-  border: 1px #00ED5D solid;
+  border: 1px #57cc99 solid;
   padding: 0.5rem;
   color: #ffffff;
 }
