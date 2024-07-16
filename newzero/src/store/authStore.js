@@ -59,7 +59,6 @@ const authStore = {
         },
         CLICK_DATA(state, data)  {
             state.clickPlace= data;
-            console.log('누른얘:', data)
         }
     },
     actions: {
@@ -101,9 +100,10 @@ const authStore = {
                 console.log(e);
             }
         },
-        async ADD_USER_PLACE({ state, commit }){
+        async ADD_USER_PLACE({ state }){
             try {
-                const { data } = await axios.post("http://localhost:3001/totalPlace", {
+                const { data } = await axios.post("http://localhost:3001/favorites", {
+                    id: state.clickPlace.place.id,
                     place: state.clickPlace.place.place_name,
                     address:state.clickPlace.place.address_name,
                     phone: state.clickPlace.place.phone || '',
@@ -111,7 +111,6 @@ const authStore = {
                 });
                 switch (true) {
                     case data.status === '0000':
-                        commit('SET_USER_PLACE', data.output);
                         alert('장소 저장이 완료되었습니다.');
                         break;
                     default:
