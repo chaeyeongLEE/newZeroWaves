@@ -7,6 +7,7 @@ const authStore = {
         userPw: localStorage.getItem('userPw') || '',
         isLoginFlag: !!localStorage.getItem('userId'),
         userPlaceList: [],
+        userFavoriteList: [],
         clickPlace: {},
         newUser: {
             id: '',
@@ -26,7 +27,6 @@ const authStore = {
     mutations: {
         SET_MODAL(state, modalName) {
           state.modal[modalName] = !state.modal[modalName];
-            console.log('SET_MODAL', state.modal[modalName]);
         },
         NEW_USER(state, data) {
             state.newUser[data.name] = data.value;
@@ -50,6 +50,9 @@ const authStore = {
         },
         SET_USER_PLACE(state, output) {
             state.userPlaceList = output;
+        },
+        SET_FAVORITE_LIST(state, list) {
+          state.userFavoriteList = list;
         },
         RESET_DATA(state) {
             state.newUser = {}
@@ -109,20 +112,39 @@ const authStore = {
                     phone: state.clickPlace.place.phone || '',
                     desc:''
                 });
-                switch (true) {
-                    case data.status === '0000':
-                        alert('장소 저장이 완료되었습니다.');
-                        break;
-                    default:
-                        alert('장소 저장에 실패하였습니다.');
-                        break;
+                // switch (true) {
+                //     case data.status === '0000':
+                //         alert('장소 저장이 완료되었습니다.');
+                //         break;
+                //     default:
+                //         alert('장소 저장에 실패하였습니다.');
+                //         break;
+                // }
+                if (data && typeof data === 'object') {
+                    alert('장소 저장이 완료되었습니다.');
+                } else {
+                    alert('장소 저장에 실패하였습니다.');
                 }
             } catch (e) {
                 alert('장소 저장에 실패하였습니다.');
                 console.log(e);
             }
         },
+        async GET_FAVORITE_PLACE({ commit }){
+            try {
+                const { data } = await axios.get("http://localhost:3001/favorites");
 
+                if (data && typeof data === 'object') {
+                    commit('SET_FAVORITE_LIST', data);
+                    console.log('리스트출력완')
+                } else {
+                    alert('리스트를 불러오는데 실패하였습니다.');
+                }
+            } catch (e) {
+                alert('리스트를 불러오는데 실패하였습니다.');
+                console.log(e);
+            }
+        },
     },
 };
 

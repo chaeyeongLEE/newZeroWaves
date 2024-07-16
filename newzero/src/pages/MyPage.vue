@@ -5,7 +5,7 @@
       <span>내가 기록한 장소</span>
     </div>
     <div :class="$style.cardBox">
-      <div :class="$style.card" v-for="(list, idx) in userPlaceList" :key="idx">
+      <div :class="$style.card" v-for="(list, idx) in userFavoriteList" :key="idx">
         <h3 style="color: #7FA17F">{{ list?.place }}</h3>
         <span style="color: #969696">{{ list?.desc }}</span>
         <p>{{ list?.address }}</p>
@@ -20,13 +20,14 @@ import { mapActions, mapState } from "vuex";
 
 export default {
   mounted() {
-    this.GET_USER_PLACE();
+    // this.GET_USER_PLACE();
+    this.GET_FAVORITE_PLACE();
   },
   computed: {
-    ...mapState('auth', ['userId', 'userPlaceList']),
+    ...mapState('auth', ['userId', 'userPlaceList', 'userFavoriteList']),
   },
   methods: {
-    ...mapActions('auth', ['GET_USER_PLACE']),
+    ...mapActions('auth', ['GET_USER_PLACE', 'GET_FAVORITE_PLACE']),
   }
 }
 </script>
