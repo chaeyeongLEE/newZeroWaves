@@ -12,6 +12,9 @@ const authStore = {
             pw: '',
             email: '',
             phone: '',
+        },
+        modal: {
+            favoriteModal: false,
         }
     },
     getters: {
@@ -20,6 +23,10 @@ const authStore = {
         },
     },
     mutations: {
+        SET_MODAL(state, modalName) {
+          state.modal[modalName] = !state.modal[modalName];
+            console.log('SET_MODAL', state.modal[modalName]);
+        },
         NEW_USER(state, data) {
             state.newUser[data.name] = data.value;
         },

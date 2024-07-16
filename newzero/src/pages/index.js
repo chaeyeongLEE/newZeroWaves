@@ -17,3 +17,9 @@ Vue.component('JoinPage', JoinPage);
 
 import MapImsiPage from "@/pages/MapImsiPage.vue";
 Vue.component('MapImsiPage', MapImsiPage);
+
+import TheModal from "@/components/TheModal.vue";
+Vue.component('TheModal', TheModal);
+
+import MapSaveModal from "@/pages/MapSaveModal.vue";
+Vue.component('MapSaveModal', MapSaveModal);

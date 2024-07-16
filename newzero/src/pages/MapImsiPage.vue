@@ -25,10 +25,13 @@
       </ul>
       <div id="pagination" :class="$style.pagination"></div>
     </div>
+    <MapSaveModal v-if="modal.favoriteModal" />
   </div>
 </template>
 
 <script>
+import {mapMutations, mapState} from "vuex";
+
 export default {
   data() {
     return {
@@ -39,10 +42,14 @@ export default {
       infowindow: new kakao.maps.InfoWindow({ zIndex: 1 })
     };
   },
+  computed: {
+    ...mapState('auth', ['modal']),
+  },
   mounted() {
     this.initMap();
   },
   methods: {
+    ...mapMutations('auth', ['SET_MODAL']),
     initMap() {
       const mapContainer = document.getElementById('map');
       const mapOption = {
@@ -84,6 +91,13 @@ export default {
 
         kakao.maps.event.addListener(marker, 'mouseover', () => {
           this.displayInfowindow(marker, place.place_name);
+        });
+
+
+        kakao.maps.event.addListener(marker, 'click', () => {
+          console.log('클릭함');
+          //저장 모달 띄우기
+          this.SET_MODAL('favoriteModal');
         });
 
         kakao.maps.event.addListener(marker, 'mouseout', () => {
@@ -142,9 +156,25 @@ export default {
       this.markers = [];
     },
     displayInfowindow(marker, title) {
-      const content = `<div style="padding:5px;z-index:1;">${title}</div>`;
+      const content = `<div style="padding: 5px; z-index: 1; display: inline-block; white-space: nowrap;">${title}
+        <span id="star-icon" style="cursor: pointer; margin-left: 10px;">&#9733;</span></div>`;
       this.infowindow.setContent(content);
       this.infowindow.open(this.map, marker);
+
+      const starIcon = document.getElementById('star-icon');
+      if (starIcon) {
+        starIcon.addEventListener('click', () => this.saveLocation(title));
+      }
+    },
+    saveLocation(title) {
+      const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+      if (!savedLocations.includes(title)) {
+        savedLocations.push(title);
+        localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+        alert(`${title}이(가) 저장되었습니다.`);
+      } else {
+        alert(`${title}이(가) 이미 저장되어 있습니다.`);
+      }
     },
     showPlace(place) {
       const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
@@ -186,7 +216,7 @@ export default {
 }
 .option input {
   border: 0;
-  width: 180px;
+  width: 170px;
   outline: none;
   border-radius: 0.3rem;
   padding: 0.3rem;
